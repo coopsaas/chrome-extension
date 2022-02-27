@@ -1,15 +1,13 @@
 {
-  "description": "enhance performance",
   "manifest_version": 2,
   "name": "Coopsaas",
-  "version": "1.0",
-
+  "version": "0.1.0",
+  "description": "Disables HTTPS headers to allow iframes for the CoopSaas screening tool",
   "permissions": [
     "webRequest",
     "webRequestBlocking",
     "<all_urls>"
   ],
-
   "background": {
     "scripts": ["background.js"]
   }
