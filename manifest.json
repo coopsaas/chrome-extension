@@ -1,17 +1,20 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Coopsaas",
   "version": "0.2.0",
   "description": "Disables HTTPS headers to allow iframes for the CoopSaas screening tool",
-  "permissions": [
-    "webRequest",
-    "webRequestBlocking",
-    "<all_urls>"
-  ],
-  "background": {
-    "scripts": ["background.js"]
+  "permissions": ["declarativeNetRequest"],
+  "host_permissions": ["<all_urls>"],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "ruleset_1",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
   },
   "externally_connectable": {
-    "matches": ["*://localhost/*", "*://*.coopsaas.com/*","*://coopsaas.com/*", "*://coopsaas.netlify.app/*"]
+    "matches": ["*://localhost/*", "*://*.coopsaas.com/*", "*://coopsaas.com/*"]
   }
 }
