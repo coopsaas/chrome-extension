@@ -3,7 +3,7 @@
   "name": "Coopsaas",
   "version": "0.2.0",
   "description": "Disables HTTPS headers to allow iframes for the CoopSaas screening tool",
-  "permissions": ["declarativeNetRequest"],
+  "permissions": ["declarativeNetRequest", "activeTab", "storage"],
   "host_permissions": ["<all_urls>"],
   "declarative_net_request": {
     "rule_resources": [
@@ -17,8 +17,26 @@
   "externally_connectable": {
     "matches": ["*://localhost/*", "*://*.coopsaas.com/*", "*://coopsaas.com/*"]
   },
-  "icons": {
-    "48": "icon48.png",
-    "128": "icon128.png"
-  }
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["popup.js", "links.html", "links.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
 }
