@@ -5,6 +5,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.message === 'linkExtractor.toggleExtract') {
     ;(async () => {
       isPolling = !isPolling
+
       const message = isPolling ? 'startExtracting' : 'stopExtracting'
       const tabs = await chrome.tabs.query({ active: true, currentWindow: true })
       const response = await chrome.tabs.sendMessage(tabs[0].id, { message: message })
@@ -12,6 +13,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         chrome.storage.local.set({ links: response.links }, function () {
           chrome.tabs.create({ url: chrome.runtime.getURL('links.html') })
         })
+        selectMode = false
       }
       sendResponse({ isPolling, selectMode })
     })()
