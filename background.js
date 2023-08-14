@@ -13,7 +13,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           chrome.tabs.create({ url: chrome.runtime.getURL('links.html') })
         })
       }
-      sendResponse({ isPolling })
+      sendResponse({ isPolling, selectMode })
     })()
   } else if (request.message === 'linkExtractor.toggleSelect') {
     ;(async () => {

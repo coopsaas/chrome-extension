@@ -5,10 +5,10 @@ window.addEventListener('load', function () {
   recordLinksBtn = document.getElementById('recordLinksBtn')
 
   recordLinksBtn.addEventListener('click', async () => {
-    const { isPolling } = await chrome.runtime.sendMessage({ message: 'linkExtractor.toggleExtract' })
+    const { isPolling, selectMode } = await chrome.runtime.sendMessage({ message: 'linkExtractor.toggleExtract' })
 
-    updateUI({ isPolling })
-    chrome.storage.local.set({ isPolling })
+    updateUI({ isPolling, selectMode })
+    chrome.storage.local.set({ isPolling, selectMode })
   })
 
   toggleSelectModeBtn = document.getElementById('selectModeBtn')

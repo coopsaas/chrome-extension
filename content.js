@@ -40,23 +40,31 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     intervalIds.push(setInterval(extractOutboundLinks, 200))
 
     if (scrollElement) {
-      intervalIds.push(setInterval(scroll, 1000))
+      intervalIds.push(setInterval(scroll, 500))
     }
 
     sendResponse({ message: 'started' })
   } else if (request.message === 'stopExtracting') {
     intervalIds.forEach((intervalId) => clearInterval(intervalId))
     sendResponse({ links: Array.from(outboundLinks) })
+
+    removeListeners()
+    if (scrollElement) {
+      scrollElement.style.border = ''
+      scrollElement = null
+    }
   } else if (request.message === 'enableSelect') {
     document.addEventListener('mouseover', mousOverEffect)
     document.addEventListener('mouseout', mouseOutEffect)
     document.addEventListener('click', setScrollElement)
+    sendResponse({ message: 'enabled' })
   } else if (request.message === 'disableSelect') {
     removeListeners()
     if (scrollElement) {
       scrollElement.style.border = ''
       scrollElement = null
     }
+    sendResponse({ message: 'disabled' })
   }
 })
 
