@@ -1,24 +1,44 @@
+let toggleSelectModeBtn = null
+let recordLinksBtn = null
+
 window.addEventListener('load', function () {
-  const recordLinksBtn = document.getElementById('recordLinksBtn')
+  recordLinksBtn = document.getElementById('recordLinksBtn')
 
-  recordLinksBtn.addEventListener('click', () => {
-    chrome.runtime.sendMessage({ message: 'linkExtractor.toggle' }, (response) => {
-      recordLinksBtn.innerText = response.isPolling ? 'Stop recording' : 'Record outbound links'
-      document.getElementById('status').innerText = response.isPolling ? 'Extracting outbound links...' : ''
+  recordLinksBtn.addEventListener('click', async () => {
+    const { isPolling } = await chrome.runtime.sendMessage({ message: 'linkExtractor.toggleExtract' })
 
-      chrome.storage.sync.set({ isPolling: response.isPolling })
-    })
+    updateUI({ isPolling })
+    chrome.storage.local.set({ isPolling })
+  })
+
+  toggleSelectModeBtn = document.getElementById('selectModeBtn')
+
+  toggleSelectModeBtn.addEventListener('click', async () => {
+    const { selectMode } = await chrome.runtime.sendMessage({ message: 'linkExtractor.toggleSelect' })
+
+    updateUI({ selectMode })
+    chrome.storage.local.set({ selectMode })
   })
 })
 
-document.addEventListener('DOMContentLoaded', () => {
-  chrome.storage.sync.get(['isPolling'], (result) => {
-    if (result.isPolling) {
-      recordLinksBtn.innerText = 'Stop recording'
-      document.getElementById('status').innerText = 'Extracting outbound links...'
-    } else {
-      recordLinksBtn.innerText = 'Record outbound links'
-      document.getElementById('status').innerText = ''
-    }
-  })
+document.addEventListener('DOMContentLoaded', async () => {
+  const { isPolling, selectMode } = await chrome.storage.local.get(['isPolling', 'selectMode'])
+  updateUI({ isPolling, selectMode })
 })
+
+function updateUI({ isPolling, selectMode }) {
+  const status = document.getElementById('status')
+  if (isPolling) {
+    recordLinksBtn.innerText = 'Stop recording'
+    status.innerText = 'Extracting outbound links...'
+  } else {
+    recordLinksBtn.innerText = 'Record outbound links'
+    status.innerText = ''
+  }
+
+  if (selectMode) {
+    toggleSelectModeBtn.innerText = 'Disable select mode'
+  } else {
+    toggleSelectModeBtn.innerText = 'Enable select mode'
+  }
+}

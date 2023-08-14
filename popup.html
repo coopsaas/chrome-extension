@@ -12,9 +12,15 @@
       #status {
         margin-top: 20px;
       }
+      .btn-primary {
+        border: 2px solid hsl(186 67% 30%);
+        background: hsl(186 67% 66%);
+        color: hsl(186 67% 20%);
+      }
+      .btn-primary:hover {
+        background: hsl(186 67% 40%);
+      }
       .btn {
-        border: 2px solid #9e9d9dfe;
-        background: #fff;
         outline: none;
         border-radius: 5px;
         padding: 3px 10px;
@@ -22,17 +28,41 @@
       }
       .btn:hover {
         cursor: pointer;
-        background-color: #c7c7c7;
       }
       .btn:active {
         transform: translateY(1px);
       }
+      .btn-secondary {
+        border: 2px solid #9e9d9dfe;
+        background: #fff;
+      }
+      .btn-secondary:hover {
+        background: hsl(186, 21%, 76%);
+      }
+      .actions {
+        margin-top: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        gap: 10px;
+      }
     </style>
   </head>
   <body>
-    <h1>CoopSaas</h1>
-    <button type="button" class="btn" id="recordLinksBtn">Record outbound links</button>
-    <div id="status"></div>
+    <div class="container">
+      <h1>CoopSaas</h1>
+      <div id="status"></div>
+      <div class="actions">
+        <button class="btn btn-secondary" type="button" id="selectModeBtn">Toggle Select Mode</button>
+        <button type="button" class="btn-primary btn" id="recordLinksBtn">Record outbound links</button>
+      </div>
+    </div>
+
     <script src="popup.js"></script>
   </body>
 </html>

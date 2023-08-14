@@ -11,13 +11,21 @@ const extractOutboundLinks = () => {
   }
 }
 
+function hoverEffect(e) {
+  e.target.style.border = '1px solid red'
+}
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.message === 'start') {
+  if (request.message === 'startExtracting') {
     extractOutboundLinks()
     intervalId = setInterval(extractOutboundLinks, 200)
     sendResponse({ message: 'started' })
-  } else if (request.message === 'stop') {
+  } else if (request.message === 'stopExtracting') {
     clearInterval(intervalId)
     sendResponse({ links: Array.from(outboundLinks) })
+  } else if (request.message === 'enableSelect') {
+    document.addEventListener('mouseover', hoverEffect)
+  } else if (request.message === 'disableSelect') {
+    document.removeEventListener('mouseover', hoverEffect)
   }
 })
