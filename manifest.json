@@ -1,22 +1,10 @@
 {
   "manifest_version": 3,
-  "name": "Coopsaas",
-  "version": "0.3.1",
-  "description": "Disables HTTPS headers to allow iframes for the CoopSaas screening tool",
-  "permissions": ["declarativeNetRequest", "activeTab", "storage"],
+  "name": "Domain Extracter",
+  "version": "0.3.2",
+  "description": "Allows you to extract domains and urls from a page and save them to a list.",
+  "permissions": ["activeTab", "storage"],
   "host_permissions": ["<all_urls>"],
-  "declarative_net_request": {
-    "rule_resources": [
-      {
-        "id": "ruleset_1",
-        "enabled": true,
-        "path": "rules.json"
-      }
-    ]
-  },
-  "externally_connectable": {
-    "matches": ["*://localhost/*", "*://*.coopsaas.com/*", "*://coopsaas.com/*"]
-  },
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
